@@ -1,11 +1,14 @@
 package org.example.model;
 
+import java.sql.Timestamp;
+
 public class Stock {
     private int stockId;
     private String lotNumber;
     private int quantity;
     private Product product;
     private Location location;
+    private Timestamp dateAdded;
 
     public int getStockId() {
         return stockId;
@@ -45,5 +48,13 @@ public class Stock {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Timestamp getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Timestamp dateAdded) {
+        this.dateAdded = dateAdded;
     }
 }

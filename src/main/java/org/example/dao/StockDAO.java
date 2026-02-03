@@ -69,15 +69,18 @@ public class StockDAO {
                 i.stock_id AS stock_id,
                 i.lot_number AS lot_number,
                 i.quantity AS quantity,
+                MIN(a.add_date) AS date_added,
                 p.product_id AS p_product_id,
                 p.product_name AS p_product_name,
                 p.unit AS p_unit,
                 l.location_id AS l_location_id,
                 l.location_name AS l_location_name
             FROM inventory i
+            LEFT JOIN add_stock a ON i.stock_id = a.stock_id
             JOIN products p ON i.product_id = p.product_id
             JOIN locations l ON i.location_id = l.location_id
             WHERE i.product_id = ? AND i.location_id = ?
+            GROUP BY i.stock_id
             LIMIT 1
             """;
 
@@ -103,15 +106,18 @@ public class StockDAO {
                 i.stock_id AS stock_id,
                 i.lot_number AS lot_number,
                 i.quantity AS quantity,
+                MIN(a.add_date) AS date_added,
                 p.product_id AS p_product_id,
                 p.product_name AS p_product_name,
                 p.unit AS p_unit,
                 l.location_id AS l_location_id,
                 l.location_name AS l_location_name
             FROM inventory i
+            LEFT JOIN add_stock a ON i.stock_id = a.stock_id
             JOIN products p ON i.product_id = p.product_id
             JOIN locations l ON i.location_id = l.location_id
             WHERE i.product_id = ? AND i.location_id = ? AND i.lot_number = ?
+            GROUP BY i.stock_id
             LIMIT 1
             """;
 
@@ -138,14 +144,17 @@ public class StockDAO {
                 i.stock_id AS stock_id,
                 i.lot_number AS lot_number,
                 i.quantity AS quantity,
+                MIN(a.add_date) AS date_added,
                 p.product_id AS p_product_id,
                 p.product_name AS p_product_name,
                 p.unit AS p_unit,
                 l.location_id AS l_location_id,
                 l.location_name AS l_location_name
             FROM inventory i
+            LEFT JOIN add_stock a ON i.stock_id = a.stock_id
             JOIN products p ON i.product_id = p.product_id
             JOIN locations l ON i.location_id = l.location_id
+            GROUP BY i.stock_id
             """;
 
         List<Stock> stockList = new ArrayList<>();
@@ -169,15 +178,18 @@ public class StockDAO {
                 i.stock_id AS stock_id,
                 i.lot_number AS lot_number,
                 i.quantity AS quantity,
+                MIN(a.add_date) AS date_added,
                 p.product_id AS p_product_id,
                 p.product_name AS p_product_name,
                 p.unit AS p_unit,
                 l.location_id AS l_location_id,
                 l.location_name AS l_location_name
             FROM inventory i
+            LEFT JOIN add_stock a ON i.stock_id = a.stock_id
             JOIN products p ON i.product_id = p.product_id
             JOIN locations l ON i.location_id = l.location_id
             WHERE i.stock_id = ?
+            GROUP BY i.stock_id
             """;
 
         try (Connection conn = MySQLConnection.getConnection();
@@ -201,15 +213,18 @@ public class StockDAO {
                 i.stock_id AS stock_id,
                 i.lot_number AS lot_number,
                 i.quantity AS quantity,
+                MIN(a.add_date) AS date_added,
                 p.product_id AS p_product_id,
                 p.product_name AS p_product_name,
                 p.unit AS p_unit,
                 l.location_id AS l_location_id,
                 l.location_name AS l_location_name
             FROM inventory i
+            LEFT JOIN add_stock a ON i.stock_id = a.stock_id
             JOIN products p ON i.product_id = p.product_id
             JOIN locations l ON i.location_id = l.location_id
             WHERE i.product_id = ?
+            GROUP BY i.stock_id
             """;
 
         return getStockListByQuery(sql, productId);
@@ -221,15 +236,18 @@ public class StockDAO {
                 i.stock_id AS stock_id,
                 i.lot_number AS lot_number,
                 i.quantity AS quantity,
+                MIN(a.add_date) AS date_added,
                 p.product_id AS p_product_id,
                 p.product_name AS p_product_name,
                 p.unit AS p_unit,
                 l.location_id AS l_location_id,
                 l.location_name AS l_location_name
             FROM inventory i
+            LEFT JOIN add_stock a ON i.stock_id = a.stock_id
             JOIN products p ON i.product_id = p.product_id
             JOIN locations l ON i.location_id = l.location_id
             WHERE i.location_id = ?
+            GROUP BY i.stock_id
             """;
 
         return getStockListByQuery(sql, locationId);
@@ -241,19 +259,19 @@ public class StockDAO {
                 i.stock_id AS stock_id,
                 i.lot_number AS lot_number,
                 i.quantity AS quantity,
-                MIN(a.add_date) as first_add_date,
+                MIN(a.add_date) AS date_added,
                 p.product_id AS p_product_id,
                 p.product_name AS p_product_name,
                 p.unit AS p_unit,
                 l.location_id AS l_location_id,
                 l.location_name AS l_location_name
             FROM inventory i
-            JOIN add_stock a ON i.stock_id = a.stock_id
+            LEFT JOIN add_stock a ON i.stock_id = a.stock_id
             JOIN products p ON i.product_id = p.product_id
             JOIN locations l ON i.location_id = l.location_id
             WHERE i.product_id = ? AND i.location_id = ?
             GROUP BY i.stock_id
-            ORDER BY first_add_date ASC
+            ORDER BY date_added ASC
             LIMIT 1
             """;
 
@@ -296,6 +314,7 @@ public class StockDAO {
         stock.setStockId(rs.getInt("stock_id"));
         stock.setLotNumber(rs.getString("lot_number"));
         stock.setQuantity(rs.getInt("quantity"));
+        stock.setDateAdded(rs.getTimestamp("date_added"));
 
         Product product = new Product();
         product.setProductId(rs.getInt("p_product_id"));

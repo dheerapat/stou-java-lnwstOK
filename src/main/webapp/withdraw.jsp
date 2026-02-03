@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:layout title="Withdraw" activePage="withdraw">
-    <h2 class="text-2xl font-bold text-gray-800">รับสินค้าออก (Withdraw)</h2>
+    <h2 class="text-2xl font-bold text-gray-800">จ่ายสินค้าออก (Withdraw)</h2>
 
     <c:if test="${not empty error}">
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">

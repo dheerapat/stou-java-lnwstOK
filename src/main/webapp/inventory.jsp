@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:layout title="Inventory" activePage="inventory">
     <h2 class="text-2xl font-bold text-gray-800">คลังสินค้า (Inventory)</h2>
@@ -52,6 +53,7 @@
                     <th class="px-6 py-4 font-bold text-gray-700">จำนวน</th>
                     <th class="px-6 py-4 font-bold text-gray-700">Location</th>
                     <th class="px-6 py-4 font-bold text-gray-700">Lot Number</th>
+                    <th class="px-6 py-4 font-bold text-gray-700">Date Added</th>
                     <th class="px-6 py-4 font-bold text-gray-700">สถานะ</th>
                 </tr>
             </thead>
@@ -59,7 +61,7 @@
                 <c:choose>
                     <c:when test="${empty stockList}">
                         <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-gray-400">No inventory data found</td>
+                            <td colspan="7" class="px-6 py-8 text-center text-gray-400">No inventory data found</td>
                         </tr>
                     </c:when>
                     <c:otherwise>
@@ -70,6 +72,14 @@
                                 <td class="px-6 py-4">${stock.quantity} ${stock.product.unit}</td>
                                 <td class="px-6 py-4">${stock.location.locationName}</td>
                                 <td class="px-6 py-4">${stock.lotNumber}</td>
+                                <td class="px-6 py-4">
+                                    <c:choose>
+                                        <c:when test="${not empty stock.dateAdded}">
+                                            <fmt:formatDate value="${stock.dateAdded}" pattern="dd/MM/yyyy HH:mm"/>
+                                        </c:when>
+                                        <c:otherwise>-</c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td class="px-6 py-4 ${stock.quantity < 20 ? 'text-red-600 font-bold' : 'text-emerald-500'}">
                                     ${stock.quantity < 20 ? 'สต็อกต่ำ' : 'ปกติ'}
                                 </td>
