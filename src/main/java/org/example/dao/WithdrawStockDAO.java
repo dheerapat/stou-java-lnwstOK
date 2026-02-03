@@ -16,14 +16,13 @@ import java.util.List;
 public class WithdrawStockDAO {
 
     public void addWithdrawStock(WithdrawStock withdrawStock) throws SQLException {
-        String sql = "INSERT INTO withdraw_stock (stock_id, lot_number, quantity) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO withdraw_stock (stock_id, quantity) VALUES (?, ?)";
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, withdrawStock.getStockId());
-            stmt.setString(2, withdrawStock.getLotNumber());
-            stmt.setInt(3, withdrawStock.getQuantity());
+            stmt.setInt(2, withdrawStock.getQuantity());
 
             stmt.executeUpdate();
 
@@ -40,7 +39,6 @@ public class WithdrawStockDAO {
             SELECT
                 w.withdraw_stock_id,
                 w.stock_id,
-                w.lot_number,
                 w.quantity,
                 w.withdraw_date,
                 i.stock_id,
@@ -78,7 +76,6 @@ public class WithdrawStockDAO {
             SELECT
                 w.withdraw_stock_id,
                 w.stock_id,
-                w.lot_number,
                 w.quantity,
                 w.withdraw_date,
                 i.stock_id,
@@ -119,7 +116,6 @@ public class WithdrawStockDAO {
             SELECT
                 w.withdraw_stock_id,
                 w.stock_id,
-                w.lot_number,
                 w.quantity,
                 w.withdraw_date,
                 i.stock_id,
@@ -155,7 +151,6 @@ public class WithdrawStockDAO {
         WithdrawStock withdrawStock = new WithdrawStock();
         withdrawStock.setWithdrawStockId(rs.getInt("withdraw_stock_id"));
         withdrawStock.setStockId(rs.getInt("stock_id"));
-        withdrawStock.setLotNumber(rs.getString("lot_number"));
         withdrawStock.setQuantity(rs.getInt("quantity"));
         withdrawStock.setWithdrawDate(rs.getTimestamp("withdraw_date"));
 

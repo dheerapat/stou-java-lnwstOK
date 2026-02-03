@@ -16,14 +16,13 @@ import java.util.List;
 public class AddStockDAO {
 
     public void addAddStock(AddStock addStock) throws SQLException {
-        String sql = "INSERT INTO add_stock (stock_id, lot_number, quantity) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO add_stock (stock_id, quantity) VALUES (?, ?)";
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, addStock.getStockId());
-            stmt.setString(2, addStock.getLotNumber());
-            stmt.setInt(3, addStock.getQuantity());
+            stmt.setInt(2, addStock.getQuantity());
 
             stmt.executeUpdate();
 
@@ -40,7 +39,6 @@ public class AddStockDAO {
             SELECT
                 a.add_stock_id,
                 a.stock_id,
-                a.lot_number,
                 a.quantity,
                 a.add_date,
                 i.stock_id,
@@ -78,7 +76,6 @@ public class AddStockDAO {
             SELECT
                 a.add_stock_id,
                 a.stock_id,
-                a.lot_number,
                 a.quantity,
                 a.add_date,
                 i.stock_id,
@@ -119,7 +116,6 @@ public class AddStockDAO {
             SELECT
                 a.add_stock_id,
                 a.stock_id,
-                a.lot_number,
                 a.quantity,
                 a.add_date,
                 i.stock_id,
@@ -155,7 +151,6 @@ public class AddStockDAO {
         AddStock addStock = new AddStock();
         addStock.setAddStockId(rs.getInt("add_stock_id"));
         addStock.setStockId(rs.getInt("stock_id"));
-        addStock.setLotNumber(rs.getString("lot_number"));
         addStock.setQuantity(rs.getInt("quantity"));
         addStock.setAddDate(rs.getTimestamp("add_date"));
 

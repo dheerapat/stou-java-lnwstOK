@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS inventory (
 CREATE TABLE IF NOT EXISTS add_stock (
     add_stock_id INT AUTO_INCREMENT PRIMARY KEY,
     stock_id INT NOT NULL,
-    lot_number VARCHAR(50),
     quantity INT NOT NULL,
     add_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (stock_id) REFERENCES inventory(stock_id) ON DELETE CASCADE
@@ -35,7 +34,6 @@ CREATE TABLE IF NOT EXISTS add_stock (
 CREATE TABLE IF NOT EXISTS withdraw_stock (
     withdraw_stock_id INT AUTO_INCREMENT PRIMARY KEY,
     stock_id INT NOT NULL,
-    lot_number VARCHAR(50),
     quantity INT NOT NULL,
     withdraw_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (stock_id) REFERENCES inventory(stock_id) ON DELETE CASCADE

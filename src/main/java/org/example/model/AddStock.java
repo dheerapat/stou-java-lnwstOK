@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 public class AddStock {
     private int addStockId;
     private int stockId;
-    private String lotNumber;
     private int quantity;
     private Timestamp addDate;
     private Stock stock;
@@ -24,14 +23,6 @@ public class AddStock {
 
     public void setStockId(int stockId) {
         this.stockId = stockId;
-    }
-
-    public String getLotNumber() {
-        return lotNumber;
-    }
-
-    public void setLotNumber(String lotNumber) {
-        this.lotNumber = lotNumber;
     }
 
     public int getQuantity() {
