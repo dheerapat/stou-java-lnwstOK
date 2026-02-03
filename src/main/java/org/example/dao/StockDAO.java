@@ -97,6 +97,41 @@ public class StockDAO {
         return null;
     }
 
+    public Stock getStockByProductLocationAndLot(int productId, int locationId, String lotNumber) throws SQLException {
+        String sql = """
+            SELECT
+                i.stock_id AS stock_id,
+                i.lot_number AS lot_number,
+                i.quantity AS quantity,
+                p.product_id AS p_product_id,
+                p.product_name AS p_product_name,
+                p.unit AS p_unit,
+                l.location_id AS l_location_id,
+                l.location_name AS l_location_name
+            FROM inventory i
+            JOIN products p ON i.product_id = p.product_id
+            JOIN locations l ON i.location_id = l.location_id
+            WHERE i.product_id = ? AND i.location_id = ? AND i.lot_number = ?
+            LIMIT 1
+            """;
+
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, productId);
+            stmt.setInt(2, locationId);
+            stmt.setString(3, lotNumber);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToStock(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
     public List<Stock> getAllStockInfo() throws SQLException {
         String sql = """
             SELECT
@@ -198,6 +233,44 @@ public class StockDAO {
             """;
 
         return getStockListByQuery(sql, locationId);
+    }
+
+    public Stock getOldestStockByProductAndLocation(int productId, int locationId) throws SQLException {
+        String sql = """
+            SELECT
+                i.stock_id AS stock_id,
+                i.lot_number AS lot_number,
+                i.quantity AS quantity,
+                MIN(a.add_date) as first_add_date,
+                p.product_id AS p_product_id,
+                p.product_name AS p_product_name,
+                p.unit AS p_unit,
+                l.location_id AS l_location_id,
+                l.location_name AS l_location_name
+            FROM inventory i
+            JOIN add_stock a ON i.stock_id = a.stock_id
+            JOIN products p ON i.product_id = p.product_id
+            JOIN locations l ON i.location_id = l.location_id
+            WHERE i.product_id = ? AND i.location_id = ?
+            GROUP BY i.stock_id
+            ORDER BY first_add_date ASC
+            LIMIT 1
+            """;
+
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, productId);
+            stmt.setInt(2, locationId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToStock(rs);
+                }
+            }
+        }
+
+        return null;
     }
 
     private List<Stock> getStockListByQuery(String sql, int param) throws SQLException {

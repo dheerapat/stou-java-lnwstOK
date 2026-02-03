@@ -45,23 +45,23 @@
         <nav class="flex-1 px-4 space-y-2">
             <p class="text-[10px] uppercase text-gray-500 font-bold px-2 mb-2">Main Menu</p>
 
-            <a href="index.jsp" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'dashboard' ? 'menu-active' : 'menu-inactive'}">
-                <i class="fas fa-th-large text-sm"></i> <span class="text-sm">DashBoard</span>
+            <a href="dashboard" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'dashboard' ? 'menu-active' : 'menu-inactive'}">
+                <i class="fas fa-th-large text-sm"></i> <span class="text-sm">Dashboard</span>
             </a>
 
-            <a href="masterlist.jsp" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'masterlist' ? 'menu-active' : 'menu-inactive'}">
+            <a href="products" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'masterlist' ? 'menu-active' : 'menu-inactive'}">
                 <i class="fas fa-box text-sm"></i> <span class="text-sm">Product Masterlist</span>
             </a>
 
-            <a href="inventory.jsp" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'inventory' ? 'menu-active' : 'menu-inactive'}">
+            <a href="inventory" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'inventory' ? 'menu-active' : 'menu-inactive'}">
                 <i class="fas fa-boxes text-sm"></i> <span class="text-sm">Inventory</span>
             </a>
 
-            <a href="receiver.jsp" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'receiver' ? 'menu-active' : 'menu-inactive'}">
+            <a href="receiver" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'receiver' ? 'menu-active' : 'menu-inactive'}">
                 <i class="fas fa-download text-sm"></i> <span class="text-sm">Receiver</span>
             </a>
 
-            <a href="withdraw.jsp" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'withdraw' ? 'menu-active' : 'menu-inactive'}">
+            <a href="withdraw" class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition ${activePage == 'withdraw' ? 'menu-active' : 'menu-inactive'}">
                 <i class="fas fa-upload text-sm"></i> <span class="text-sm">Withdraw</span>
             </a>
         </nav>
@@ -70,7 +70,7 @@
             <div class="flex items-center gap-3 p-2">
                 <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-xs text-white">AD</div>
                 <div class="overflow-hidden">
-                    <p class="text-xs font-bold text-white truncate">Admin Contract</p>
+                    <p class="text-xs font-bold text-white truncate">Admin Contact</p>
                     <p class="text-[10px] text-gray-500 truncate">admin@lnwstOK.com</p>
                 </div>
             </div>

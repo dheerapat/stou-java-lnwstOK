@@ -48,11 +48,12 @@ public class StockService {
         validateQuantity(quantity, "Add");
         validateLotNumber(lotNumber);
 
+        Stock stock;
         try (Connection conn = MySQLConnection.getConnection()) {
             conn.setAutoCommit(false);
 
             try {
-                Stock stock = stockDAO.getStockByProductAndLocation(productId, locationId);
+                stock = stockDAO.getStockByProductLocationAndLot(productId, locationId, lotNumber);
                 if (stock == null) {
                     stock = createNewStock(conn, productId, locationId, lotNumber, quantity);
                 } else {
@@ -63,20 +64,19 @@ public class StockService {
 
                 AddStock addStock = new AddStock();
                 addStock.setStockId(stock.getStockId());
-                addStock.setLotNumber(lotNumber);
                 addStock.setQuantity(quantity);
                 addStockDAO.addAddStock(addStock);
 
                 conn.commit();
-                return stock;
             } catch (SQLException e) {
                 conn.rollback();
                 throw e;
             }
         }
+        return stock;
     }
 
-    public Stock withdrawStockTransaction(int stockId, String lotNumber, int quantity) throws SQLException {
+    public void withdrawStockTransaction(int stockId, String lotNumber, int quantity) throws SQLException {
         validateStockId(stockId);
         validateQuantity(quantity, "Withdraw");
         validateLotNumber(lotNumber);
@@ -100,20 +100,34 @@ public class StockService {
 
                 WithdrawStock withdrawStock = new WithdrawStock();
                 withdrawStock.setStockId(stockId);
-                withdrawStock.setLotNumber(lotNumber);
                 withdrawStock.setQuantity(quantity);
                 withdrawStockDAO.addWithdrawStock(withdrawStock);
 
                 conn.commit();
-                return stock;
-            } catch (SQLException e) {
-                conn.rollback();
-                throw e;
-            } catch (IllegalArgumentException e) {
+            } catch (SQLException | IllegalArgumentException e) {
                 conn.rollback();
                 throw e;
             }
         }
+    }
+
+    public Stock withdrawFromOldestLot(int productId, int locationId, int quantity) throws SQLException {
+        validateProductLocation(productId, locationId);
+        validateQuantity(quantity, "Withdraw");
+
+        Stock stock = stockDAO.getOldestStockByProductAndLocation(productId, locationId);
+
+        if (stock == null) {
+            throw new IllegalArgumentException("No stock found for this product in the selected location");
+        }
+
+        if (stock.getQuantity() < quantity) {
+            throw new IllegalArgumentException("Insufficient stock in oldest lot. Available: " + stock.getQuantity() + " " + stock.getProduct().getUnit() + ", Requested: " + quantity);
+        }
+
+        withdrawStockTransaction(stock.getStockId(), stock.getLotNumber(), quantity);
+
+        return stock;
     }
 
     private Stock createNewStock(Connection conn, int productId, int locationId, String lotNumber, int quantity) throws SQLException {
