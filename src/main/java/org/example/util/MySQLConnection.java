@@ -9,6 +9,14 @@ public class MySQLConnection {
     private static final String USER = "admin";
     private static final String PASSWORD = "password";
 
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Failed to load MySQL driver", e);
+        }
+    }
+
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }

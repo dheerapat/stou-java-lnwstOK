@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/dao/AddStockDAO.java" value="697a6ca8-5741-4521-9ebd-9c3a5c877e96" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/dao/LocationDAO.java" value="697a6ca8-5741-4521-9ebd-9c3a5c877e96" />
     <file url="file://$PROJECT_DIR$/src/main/java/org/example/dao/StockDAO.java" value="697a6ca8-5741-4521-9ebd-9c3a5c877e96" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/dao/WithdrawStockDAO.java" value="697a6ca8-5741-4521-9ebd-9c3a5c877e96" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/697a6ca8-5741-4521-9ebd-9c3a5c877e96/console.sql" value="697a6ca8-5741-4521-9ebd-9c3a5c877e96" />
   </component>
 </project>
