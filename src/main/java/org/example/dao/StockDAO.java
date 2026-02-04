@@ -269,7 +269,7 @@ public class StockDAO {
             LEFT JOIN add_stock a ON i.stock_id = a.stock_id
             JOIN products p ON i.product_id = p.product_id
             JOIN locations l ON i.location_id = l.location_id
-            WHERE i.product_id = ? AND i.location_id = ?
+            WHERE i.product_id = ? AND i.location_id = ? AND i.quantity > 0
             GROUP BY i.stock_id
             ORDER BY date_added ASC
             LIMIT 1

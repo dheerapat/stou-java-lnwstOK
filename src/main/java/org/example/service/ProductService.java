@@ -9,15 +9,9 @@ import java.util.List;
 public class ProductService {
     private final ProductDAO productDAO = new ProductDAO();
 
-    public Product addProduct(String productName, String unit) throws SQLException {
+    public void addProduct(String productName, String unit) throws SQLException {
         validateProduct(productName, unit);
-
         productDAO.addProduct(productName, unit);
-
-        Product product = new Product();
-        product.setProductName(productName);
-        product.setUnit(unit);
-        return product;
     }
 
     public Product getProductById(int productId) throws SQLException {
@@ -34,7 +28,7 @@ public class ProductService {
         return productDAO.getAllProducts();
     }
 
-    public Product updateProduct(int productId, String productName, String unit) throws SQLException {
+    public void updateProduct(int productId, String productName, String unit) throws SQLException {
         validateProductId(productId);
         validateProduct(productName, unit);
 
@@ -49,7 +43,6 @@ public class ProductService {
         product.setUnit(unit);
 
         productDAO.updateProduct(product);
-        return product;
     }
 
     public void deleteProduct(int productId) throws SQLException {
